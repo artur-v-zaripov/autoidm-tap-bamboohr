@@ -49,6 +49,19 @@ class TapBambooHR(Tap):
                     )
                 )
             , required=False, description="CustomReport full body definition, example in meltano.yml, same format as the Body for the POST request [here](https://documentation.bamboohr.com/reference/request-custom-report-1)"),
+        th.Property("company_reports",
+                    th.ArrayType(
+                        th.ObjectType(
+                            th.Property("name", th.StringType, required=True),
+                            th.Property("report_id", th.StringType, required=True),
+                            th.Property("fields",
+                                th.ArrayType(th.StringType)
+                                , required=True
+                            )
+                        )
+                    )
+                    , required=False,
+                    description="Company report full body definition"),
     ).to_dict()
 
     def discover_streams(self) -> List[Stream]:
