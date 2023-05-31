@@ -11,6 +11,7 @@ from tap_bamboohr.streams import (
     Employees,
     CustomReport,
     EmploymentHistoryStatus,
+    CompanyReport,
 )
 
 PLUGIN_NAME = "tap-bamboohr"
@@ -52,12 +53,25 @@ class TapBambooHR(Tap):
 
     def discover_streams(self) -> List[Stream]:
         """Return a list of discovered streams."""
-        streams =  [stream_class(tap=self) for stream_class in STREAM_TYPES]
-        custom_reports = self.config.get("custom_reports") 
-        if (custom_reports):
+        streams = [stream_class(tap=self) for stream_class in STREAM_TYPES]
+
+        custom_reports = self.config.get("custom_reports")
+        if custom_reports:
             for report in self.config.get("custom_reports"):
                 custom_report = CustomReport(tap=self, name=report["name"], custom_report_config=report)
                 streams.append(custom_report)
+
+        company_reports_config = self.config.get("company_reports")
+        if company_reports_config:
+            for report in self.config.get("company_reports"):
+                company_report = CompanyReport(
+                    tap=self,
+                    name=report["name"],
+                    report_id=report["report_id"],
+                    company_report_config=report
+                )
+                streams.append(company_report)
+
         return streams
 
 

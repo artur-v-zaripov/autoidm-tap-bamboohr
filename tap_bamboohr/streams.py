@@ -49,6 +49,33 @@ class Employees(TapBambooHRStream):
     replication_key = None
     schema_filepath = SCHEMAS_DIR / "directory.json"
 
+class CompanyReport(TapBambooHRStream):
+    primary_keys = ["id"]
+    records_jsonpath = "$.employees[*]"
+    replication_key = None
+
+    def __init__(self, name, report_id, company_report_config, *args, **kwargs):
+        self.name = name
+        self.path = f"/reports/{report_id}"
+        self._company_report_config = company_report_config
+        super().__init__(*args, **kwargs)
+
+    @property
+    def schema(self):
+        list_of_fields = []
+        for field in self.company_report_config["fields"]:
+            list_of_fields.append(typing.Property(field, typing.StringType))
+        return typing.PropertiesList(*list_of_fields).to_dict()
+
+    @property
+    def company_report_config(self):
+        return self._company_report_config
+
+    def get_url_params(
+        self, context: Optional[dict], next_page_token: Optional[Any]
+    ) -> Dict[str, Any]:
+        return {"format": "JSON"}
+
 class CustomReport(TapBambooHRStream):
     path = "/reports/custom"
     primary_keys = ["id"]
