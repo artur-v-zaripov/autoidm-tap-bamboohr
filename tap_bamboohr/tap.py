@@ -29,6 +29,7 @@ class TapBambooHR(Tap):
     config_jsonschema = th.PropertiesList(
             th.Property("auth_token", th.StringType, required=True, description="Token gathered from BambooHR, instructions are [here](https://documentation.bamboohr.com/docs#section-authentication)"),
         th.Property("subdomain", th.StringType, required=True, description="subdomain from BambooHR"),
+        th.Property("custom_url", th.StringType, required=False, description="Custom base URL for BambooHR API (when specified, subdomain does no effect)"),
         th.Property("custom_reports", 
             th.ArrayType(
                 th.ObjectType(

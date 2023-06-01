@@ -19,7 +19,8 @@ class TapBambooHRStream(RESTStream):
     @property
     def url_base(self) -> str:
         subdomain = self.config.get("subdomain")
-        return f"https://api.bamboohr.com/api/gateway.php/{subdomain}/v1"
+        custom_url = self.config.get("custom_url")
+        return custom_url if custom_url else f"https://api.bamboohr.com/api/gateway.php/{subdomain}/v1"
 
     @property
     def http_headers(self) -> dict:
