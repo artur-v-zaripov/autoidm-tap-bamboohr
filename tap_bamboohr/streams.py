@@ -75,7 +75,10 @@ class CompanyReport(TapBambooHRStream):
     def get_url_params(
         self, context: Optional[dict], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
-        return {"format": "JSON"}
+        return {
+            "format": "JSON",
+            "fd": "no"
+        }
 
 class CustomReport(TapBambooHRStream):
     path = "/reports/custom"
