@@ -51,9 +51,9 @@ class TapBambooHR(Tap):
             )
         ),
         th.Property(
-            "custom_url", 
-            th.StringType, 
-            required=False, 
+            "custom_url",
+            th.StringType,
+            required=False,
             description="Custom base URL for BambooHR API (when specified, subdomain does no effect)"
         ),
         th.Property(
