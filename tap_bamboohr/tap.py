@@ -58,7 +58,8 @@ class TapBambooHR(Tap):
                             th.Property("fields",
                                 th.ArrayType(th.StringType)
                                 , required=True
-                            )
+                            ),
+                            th.Property("fd", th.StringType, required=False)
                         )
                     )
                     , required=False,
@@ -82,6 +83,7 @@ class TapBambooHR(Tap):
                     tap=self,
                     name=report["name"],
                     report_id=report["report_id"],
+                    fd=report["fd"],
                     company_report_config=report
                 )
                 streams.append(company_report)

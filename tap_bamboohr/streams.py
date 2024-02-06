@@ -55,9 +55,18 @@ class CompanyReport(TapBambooHRStream):
     records_jsonpath = "$.employees[*]"
     replication_key = None
 
-    def __init__(self, name, report_id, company_report_config, *args, **kwargs):
+    def __init__(
+            self,
+            name,
+            report_id,
+            company_report_config,
+            fd="no",
+            *args,
+            **kwargs
+    ):
         self.name = name
         self.path = f"/reports/{report_id}"
+        self.fd = fd
         self._company_report_config = company_report_config
         super().__init__(*args, **kwargs)
 
@@ -77,7 +86,7 @@ class CompanyReport(TapBambooHRStream):
     ) -> Dict[str, Any]:
         return {
             "format": "JSON",
-            "fd": "no"
+            "fd": self.fd
         }
 
 class CustomReport(TapBambooHRStream):
