@@ -83,7 +83,7 @@ class TapBambooHR(Tap):
                     tap=self,
                     name=report["name"],
                     report_id=report["report_id"],
-                    fd=report["fd"],
+                    fd=report.get("fd"),
                     company_report_config=report
                 )
                 streams.append(company_report)
